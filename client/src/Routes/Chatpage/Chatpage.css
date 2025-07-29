@@ -1,0 +1,56 @@
+.chatPage{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    .waper{
+        flex: 1;
+  overflow-y: auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+
+
+
+        .chat{
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+
+
+            .message{
+                padding: 20px;
+
+                &.user{
+                    background-color: #2c2937;
+                    border-radius: 20px;
+                    max-width: 80%;
+                    align-self: flex-end;
+                }
+            }
+        }
+    }
+}
+/* For Chrome, Edge, and Safari */
+.waper::-webkit-scrollbar {
+  width: 8px; /* Or 0px if you want to hide it completely */
+}
+
+.waper::-webkit-scrollbar-track {
+  background: #1e1e2f; /* Match your background */
+}
+
+.waper::-webkit-scrollbar-thumb {
+  background-color: #2c2937; /* Slightly visible thumb */
+  border-radius: 10px;
+  border: 2px solid #1e1e2f; /* Same as track for blending */
+}
+
+/* For Firefox */
+.waper {
+  scrollbar-width: thin;
+  scrollbar-color: #2c2937 #1e1e2f;
+}
