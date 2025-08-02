@@ -19,6 +19,13 @@
             width: 50%;
             display: flex;
             flex-direction: column;
+            gap: 20px;
+            text-wrap-style: 1 sloid ;
+
+            p,li{
+              margin: 10px 0px;
+
+            }
 
 
             .message{

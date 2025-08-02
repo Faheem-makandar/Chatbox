@@ -3,30 +3,41 @@ import './newPrompt.css'
 import Upload from '../Upload/Upload'
 import { IKImage } from 'imagekitio-react'
 import model from '../../lib/gemini'
+import Markdown from 'react-markdown'
 
 const newPrompt = () => {
-
+  const [question,setQuestions] = useState("")
+  const [answer,setAnswer] = useState("")
+  
   const [img, setImg] = useState({
     isloading: false,
     error:"",
-    dbdata:{}
+    dbdata:{},
+    aiData:{}
   })
 
-  const endRef = useRef(null)
+  const endRef = useRef(null);
+
+const add = async (text) => {
+  setQuestions(text);
+  const result = await model.generateContent(text); // ← use text, not prompt
+  const response = await result.response;
+  setAnswer(response.text()); // Might need .text instead of text()
+};
+
 
   useEffect (()=>{
     endRef.current.scrollIntoView({behavior:"smooth"})
 
-  },[])
+  },[question, answer, img.dbdata]);
 
-  const add = async () => {
-    const prompt = "write a story about an AI and magic";
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text;
-    console.log(text);
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+     const text = e.target.text.value;
+     if (!text) return;
+     add(text)
   }
+
   return (
     <div className='newPrompt'>
       {img.isloading && <div className="loading">Loading...</div>}
@@ -38,12 +49,18 @@ const newPrompt = () => {
     className="uploaded-image"
   />
 )}
+<div className="chat-messages">
+  {question && <div className='message user'>{question}</div>}
+  {answer && <div className='message ai'><Markdown>{answer}</Markdown></div>}
+</div>
+
         <div className="endChat" ref={endRef}></div>
-      <button onClick={add} >TEST AI</button>
-      <form className="newForm">
+        
+       <form className="newForm" onSubmit={handleSubmit}> 
+
         <Upload setImg={setImg} />
          <input id="file" type="file" multiple={false} hidden />
-        <input type="text" placeholder="Ask anything" />
+        <input type="text"  name="text" placeholder="Ask anything" />
         <button>
             <img src="/arrow.png" alt="" />
         </button>

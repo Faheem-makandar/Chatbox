@@ -41,11 +41,20 @@ const Upload = ({setImg}) => {
         console.log("Progress",progress);
     }
     const onUploadStart = evt=>{
-        console.log("Start",evt);
-        setImg(prev=>({
-            ...prev,
-            isloading: true
-        }))
+        const {file} = evt.target.files[0]; 
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            setImg(prev=>({
+                ...prev, isloading: true,aiData: 
+                {inlineData:{
+                    data:reader.result.split(",")[1],
+                    mimeType:file.type,
+                }
+
+                }
+            }))
+        };
+        reader.readAsDataURL(file);
     }
     
   return (
